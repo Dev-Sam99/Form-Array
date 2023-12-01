@@ -1,0 +1,31 @@
+<form [formGroup]="employeeForm">
+    <div formArrayName="employees">
+      <div *ngFor="let employeeGroup of getEmployeeList.controls; let i = index" [formGroupName]="i">
+        <!-- Employee Name -->
+        <input formControlName="name" placeholder="Employee Name">
+  
+        <!-- Projects -->
+        {{i | json}}
+
+        <div formArrayName="projects">
+         <div *ngFor="let projectGroup of getEmployee(i).get('projects').controls; let j = index" [formGroupName]="j">
+            Project Name
+            <input formControlName="projectName" placeholder="Project Name" />
+  
+            Tasks
+            <div formArrayName="tasks">
+              <div *ngFor="let taskControl of getTaskList(i,j)?.controls; let k = index" [formGroupName]="k">
+                <input formControlName="taskName" placeholder="Task">
+              </div>
+              <button (click)="addTask(i, j)">Add Task</button>
+            </div>
+          </div>
+          <button (click)="addProject(i)">Add Project</button>
+        </div> 
+      </div>
+      <button (click)="addEmployee()">Add Employee</button>
+      <button (click)="Submit()">Submit Data</button>
+
+    </div>
+  </form>
+  
